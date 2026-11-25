@@ -28,11 +28,14 @@ def build_line() -> str:
 
     The result must be exactly one line: a stray newline in the line
     would silently break the entry format, so fail loudly instead of
-    writing a malformed file.
+    writing a malformed file. It must also be more than whitespace:
+    the gate refuses a file that is only white space.
     """
     line = _CLAUSE_SETUP + " " + _CLAUSE_PUNCH
     if "\n" in line or "\r" in line:
         raise ValueError("line clauses must not contain line breaks")
+    if not line.strip():
+        raise ValueError("line must not be only white space")
     return line
 
 
